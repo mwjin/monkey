@@ -32,3 +32,7 @@ const (
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
 )
+
+func New(inType TokenType, literal string) *Token {
+	return &Token{Type: inType, Literal: literal}
+}
