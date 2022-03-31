@@ -27,7 +27,7 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) NextToken() *token.Token {
-	tok := &token.Token{Type: token.TokenType(l.ch), Literal: string(l.ch)}
+	tok := token.New(token.TokenType(l.ch), string(l.ch))
 	l.readChar()
 	return tok
 }
