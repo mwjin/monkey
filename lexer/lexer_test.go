@@ -8,14 +8,14 @@ import (
 func TestNextToken(t *testing.T) {
 	input := `=+(){},;`
 	tests := []token.Token{
-		{token.ASSIGN, "="},
-		{token.PLUS, "+"},
-		{token.LPAREN, "("},
-		{token.RPAREN, ")"},
-		{token.LBRACE, "{"},
-		{token.RBRACE, "}"},
-		{token.COMMA, ","},
-		{token.SEMICOLON, ";"},
+		{Type: token.ASSIGN, Literal: "="},
+		{Type: token.PLUS, Literal: "+"},
+		{Type: token.LPAREN, Literal: "("},
+		{Type: token.RPAREN, Literal: ")"},
+		{Type: token.LBRACE, Literal: "{"},
+		{Type: token.RBRACE, Literal: "}"},
+		{Type: token.COMMA, Literal: ","},
+		{Type: token.SEMICOLON, Literal: ";"},
 	}
 
 	l := NewLexer(input)
