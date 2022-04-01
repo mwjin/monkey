@@ -40,7 +40,7 @@ func (l *Lexer) NextToken() *token.Token {
 	case '}':
 		tok = newCharToken(token.RBRACE, l.ch)
 	case 0:
-		tok = newCharToken(token.EOF, l.ch)
+		tok = token.New(token.EOF, "")
 	default:
 		if isLetter(l.ch) {
 			word := l.readWord()
