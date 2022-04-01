@@ -68,6 +68,16 @@ let result = add(five, ten);
 		{Type: token.SEMICOLON, Literal: ";"},
 		{Type: token.RBRACE, Literal: "}"},
 		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.LET, Literal: "let"},
+		{Type: token.IDENT, Literal: "result"},
+		{Type: token.ASSIGN, Literal: "="},
+		{Type: token.IDENT, Literal: "add"},
+		{Type: token.LPAREN, Literal: "("},
+		{Type: token.IDENT, Literal: "five"},
+		{Type: token.COMMA, Literal: ","},
+		{Type: token.IDENT, Literal: "ten"},
+		{Type: token.RPAREN, Literal: ")"},
+		{Type: token.SEMICOLON, Literal: ";"},
 		{Type: token.EOF, Literal: ""},
 	}
 
