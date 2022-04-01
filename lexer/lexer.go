@@ -1,6 +1,8 @@
 package lexer
 
-import "monkey/token"
+import (
+	"monkey/token"
+)
 
 type Lexer struct {
 	input        string
@@ -26,6 +28,14 @@ func (l *Lexer) readChar() {
 	l.readPosition++
 }
 
+func (l *Lexer) readWord() string {
+	startPosition := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[startPosition:l.position]
+}
+
 func (l *Lexer) NextToken() *token.Token {
 	var tok *token.Token
 
@@ -48,6 +58,13 @@ func (l *Lexer) NextToken() *token.Token {
 		tok = newCharToken(token.RBRACE, l.ch)
 	case 0:
 		tok = newCharToken(token.EOF, l.ch)
+	default:
+		if isLetter(l.ch) {
+			word := l.readWord()
+			return token.New(token.GetTypeOfWord(word), word)
+		} else {
+			tok = newCharToken(token.ILLEGAL, l.ch)
+		}
 	}
 	l.readChar()
 	return tok
@@ -55,4 +72,8 @@ func (l *Lexer) NextToken() *token.Token {
 
 func newCharToken(inType token.TokenType, literal byte) *token.Token {
 	return token.New(inType, string(literal))
+}
+
+func isLetter(ch byte) bool {
+	return ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z') || ch == '_'
 }
