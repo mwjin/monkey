@@ -17,25 +17,6 @@ func New(input string) *Lexer {
 	return l
 }
 
-// TODO: Support UNICODE (Multibytes)
-func (l *Lexer) readChar() {
-	if l.readPosition >= len(l.input) {
-		l.ch = 0
-	} else {
-		l.ch = l.input[l.readPosition]
-	}
-	l.position = l.readPosition
-	l.readPosition++
-}
-
-func (l *Lexer) readWord() string {
-	startPosition := l.position
-	for isLetter(l.ch) {
-		l.readChar()
-	}
-	return l.input[startPosition:l.position]
-}
-
 func (l *Lexer) NextToken() *token.Token {
 	var tok *token.Token
 
@@ -68,6 +49,25 @@ func (l *Lexer) NextToken() *token.Token {
 	}
 	l.readChar()
 	return tok
+}
+
+func (l *Lexer) readWord() string {
+	startPosition := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[startPosition:l.position]
+}
+
+// TODO: Support UNICODE (Multibytes)
+func (l *Lexer) readChar() {
+	if l.readPosition >= len(l.input) {
+		l.ch = 0
+	} else {
+		l.ch = l.input[l.readPosition]
+	}
+	l.position = l.readPosition
+	l.readPosition++
 }
 
 func newCharToken(inType token.TokenType, literal byte) *token.Token {
