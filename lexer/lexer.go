@@ -45,6 +45,9 @@ func (l *Lexer) NextToken() *token.Token {
 		if isLetter(l.ch) {
 			word := l.readWord()
 			return token.New(token.GetTypeOfWord(word), word)
+		} else if isDigit(l.ch) {
+			integer := l.readInteger()
+			return token.New(token.INT, integer)
 		} else {
 			tok = newCharToken(token.ILLEGAL, l.ch)
 		}
@@ -62,6 +65,14 @@ func (l *Lexer) skipWhitespace() {
 func (l *Lexer) readWord() string {
 	startPosition := l.position
 	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[startPosition:l.position]
+}
+
+func (l *Lexer) readInteger() string {
+	startPosition := l.position
+	for isDigit(l.ch) {
 		l.readChar()
 	}
 	return l.input[startPosition:l.position]
@@ -88,4 +99,8 @@ func isWhitespace(ch byte) bool {
 
 func isLetter(ch byte) bool {
 	return ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z') || ch == '_'
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }
