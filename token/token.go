@@ -28,11 +28,23 @@ const (
 	LBRACE = "{"
 	RBRACE = "}"
 
-	// Reserved Word
+	// Types of keywords
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
 )
 
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
 func New(inType TokenType, literal string) *Token {
 	return &Token{Type: inType, Literal: literal}
+}
+
+func GetTypeOfWord(word string) TokenType {
+	if tokType, ok := keywords[word]; ok {
+		return tokType
+	}
+	return IDENT
 }
