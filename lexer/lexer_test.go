@@ -128,6 +128,25 @@ if (5 < 10) {
 	checkTokenizeAsExpected(t, input, tests)
 }
 
+func TestTwoCharacterToken(t *testing.T) {
+	input := `
+10 == 10;
+10 != 9;
+`
+	tests := []token.Token{
+		{Type: token.INT, Literal: "10"},
+		{Type: token.EQ, Literal: "=="},
+		{Type: token.INT, Literal: "10"},
+		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.INT, Literal: "10"},
+		{Type: token.NOT_EQ, Literal: "!="},
+		{Type: token.INT, Literal: "9"},
+		{Type: token.SEMICOLON, Literal: ";"},
+	}
+
+	checkTokenizeAsExpected(t, input, tests)
+}
+
 func checkTokenizeAsExpected(t *testing.T, input string, expectedTokens []token.Token) {
 	l := New(input)
 
