@@ -97,6 +97,37 @@ func TestOneCharacterOperatorToken(t *testing.T) {
 	checkTokenizeAsExpected(t, input, tests)
 }
 
+func TestTokenizeKeywords(t *testing.T) {
+	input := `
+if (5 < 10) {
+	return true;
+} else {
+	return false;
+}
+`
+	tests := []token.Token{
+		{Type: token.IF, Literal: "if"},
+		{Type: token.LPAREN, Literal: "("},
+		{Type: token.INT, Literal: "5"},
+		{Type: token.LT, Literal: "<"},
+		{Type: token.INT, Literal: "10"},
+		{Type: token.RPAREN, Literal: ")"},
+		{Type: token.LBRACE, Literal: "{"},
+		{Type: token.RETURN, Literal: "return"},
+		{Type: token.TRUE, Literal: "true"},
+		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.RBRACE, Literal: "}"},
+		{Type: token.ELSE, Literal: "else"},
+		{Type: token.LBRACE, Literal: "{"},
+		{Type: token.RETURN, Literal: "return"},
+		{Type: token.FALSE, Literal: "false"},
+		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.RBRACE, Literal: "}"},
+	}
+
+	checkTokenizeAsExpected(t, input, tests)
+}
+
 func checkTokenizeAsExpected(t *testing.T, input string, expectedTokens []token.Token) {
 	l := New(input)
 
