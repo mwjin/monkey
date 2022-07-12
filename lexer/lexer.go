@@ -24,21 +24,21 @@ func (l *Lexer) NextToken() *token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = newCharToken(token.ASSIGN, l.ch)
+		tok = token.New(token.ASSIGN, string(l.ch))
 	case '+':
-		tok = newCharToken(token.PLUS, l.ch)
+		tok = token.New(token.PLUS, string(l.ch))
 	case ',':
-		tok = newCharToken(token.COMMA, l.ch)
+		tok = token.New(token.COMMA, string(l.ch))
 	case ';':
-		tok = newCharToken(token.SEMICOLON, l.ch)
+		tok = token.New(token.SEMICOLON, string(l.ch))
 	case '(':
-		tok = newCharToken(token.LPAREN, l.ch)
+		tok = token.New(token.LPAREN, string(l.ch))
 	case ')':
-		tok = newCharToken(token.RPAREN, l.ch)
+		tok = token.New(token.RPAREN, string(l.ch))
 	case '{':
-		tok = newCharToken(token.LBRACE, l.ch)
+		tok = token.New(token.LBRACE, string(l.ch))
 	case '}':
-		tok = newCharToken(token.RBRACE, l.ch)
+		tok = token.New(token.RBRACE, string(l.ch))
 	case 0:
 		tok = token.New(token.EOF, "")
 	default:
@@ -49,7 +49,7 @@ func (l *Lexer) NextToken() *token.Token {
 			integer := l.readInteger()
 			return token.New(token.INT, integer)
 		} else {
-			tok = newCharToken(token.ILLEGAL, l.ch)
+			tok = token.New(token.ILLEGAL, string(l.ch))
 		}
 	}
 	l.readChar()
@@ -87,10 +87,6 @@ func (l *Lexer) readChar() {
 	}
 	l.position = l.readPosition
 	l.readPosition++
-}
-
-func newCharToken(inType token.TokenType, literal byte) *token.Token {
-	return token.New(inType, string(literal))
 }
 
 func isWhitespace(ch byte) bool {
