@@ -18,17 +18,7 @@ func TestNextToken(t *testing.T) {
 		{Type: token.SEMICOLON, Literal: ";"},
 	}
 
-	l := New(input)
-
-	for i, expectedTok := range tests {
-		tok := l.NextToken()
-		if tok.Type != expectedTok.Type {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q", i, expectedTok.Type, tok.Type)
-		}
-		if tok.Literal != expectedTok.Literal {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, expectedTok.Literal, tok.Literal)
-		}
-	}
+	checkTokenizeAsExpected(t, input, tests)
 }
 
 func TestNextTokenDeclareStatement(t *testing.T) {
@@ -81,9 +71,13 @@ let result = add(five, ten);
 		{Type: token.EOF, Literal: ""},
 	}
 
+	checkTokenizeAsExpected(t, input, tests)
+}
+
+func checkTokenizeAsExpected(t *testing.T, input string, expectedTokens []token.Token) {
 	l := New(input)
 
-	for i, expectedTok := range tests {
+	for i, expectedTok := range expectedTokens {
 		tok := l.NextToken()
 		if tok.Type != expectedTok.Type {
 			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q", i, expectedTok.Type, tok.Type)
@@ -92,4 +86,5 @@ let result = add(five, ten);
 			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, expectedTok.Literal, tok.Literal)
 		}
 	}
+
 }
