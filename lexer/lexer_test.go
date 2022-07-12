@@ -74,6 +74,29 @@ let result = add(five, ten);
 	checkTokenizeAsExpected(t, input, tests)
 }
 
+func TestOneCharacterOperatorToken(t *testing.T) {
+	input := `!-/*5;
+5 < 10 > 5;
+`
+	tests := []token.Token{
+		{Type: token.BANG, Literal: "!"},
+		{Type: token.MINUS, Literal: "-"},
+		{Type: token.SLASH, Literal: "/"},
+		{Type: token.ASTERISK, Literal: "*"},
+		{Type: token.INT, Literal: "5"},
+		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.INT, Literal: "5"},
+		{Type: token.LT, Literal: "<"},
+		{Type: token.INT, Literal: "10"},
+		{Type: token.GT, Literal: ">"},
+		{Type: token.INT, Literal: "5"},
+		{Type: token.SEMICOLON, Literal: ";"},
+		{Type: token.EOF, Literal: ""},
+	}
+
+	checkTokenizeAsExpected(t, input, tests)
+}
+
 func checkTokenizeAsExpected(t *testing.T, input string, expectedTokens []token.Token) {
 	l := New(input)
 

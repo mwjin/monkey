@@ -16,10 +16,17 @@ const (
 	INT   = "INT"   // 12345
 
 	// Operator
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
 
-	// Seperator
+	LT = "<"
+	GT = ">"
+
+	// Separator
 	COMMA     = ","
 	SEMICOLON = ";"
 
