@@ -152,11 +152,13 @@ func checkTokenizeAsExpected(t *testing.T, input string, expectedTokens []token.
 
 	for i, expectedTok := range expectedTokens {
 		tok := l.NextToken()
-		if tok.Type != expectedTok.Type {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q", i, expectedTok.Type, tok.Type)
+		if !tok.HasSameTypeWith(&expectedTok) {
+			t.Fatalf("tests[%d] - token type wrong. expected=%q, got=%q", i,
+				expectedTok.Type(), tok.Type())
 		}
-		if tok.Literal != expectedTok.Literal {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, expectedTok.Literal, tok.Literal)
+		if !tok.HasSameLiteralWith(&expectedTok) {
+			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i,
+				expectedTok.Literal(), tok.Literal())
 		}
 	}
 

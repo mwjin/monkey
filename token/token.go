@@ -3,8 +3,24 @@ package token
 type TokenType string
 
 type Token struct {
-	Type    TokenType
-	Literal string
+	tokenType TokenType
+	literal   string
+}
+
+func (token *Token) Type() TokenType {
+	return token.tokenType
+}
+
+func (token *Token) Literal() string {
+	return token.literal
+}
+
+func (token *Token) HasSameTypeWith(otherToken *Token) bool {
+	return token.tokenType == otherToken.tokenType
+}
+
+func (token *Token) HasSameLiteralWith(otherToken *Token) bool {
+	return token.literal == otherToken.literal
 }
 
 const (
@@ -58,7 +74,7 @@ var keywords = map[string]TokenType{
 }
 
 func New(inType TokenType, literal string) *Token {
-	return &Token{Type: inType, Literal: literal}
+	return &Token{tokenType: inType, literal: literal}
 }
 
 func GetTypeOfWord(word string) TokenType {
