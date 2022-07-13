@@ -77,9 +77,29 @@ func New(inType TokenType, literal string) *Token {
 	return &Token{tokenType: inType, literal: literal}
 }
 
-func GetTypeOfWord(word string) TokenType {
+func CreateTokenFromLiteral(literal string) *Token {
+	return New(TokenType(literal), literal)
+}
+
+func CreateWordToken(word string) *Token {
+	return New(getTypeOfWord(word), word)
+}
+
+func getTypeOfWord(word string) TokenType {
 	if tokType, ok := keywords[word]; ok {
 		return tokType
 	}
 	return IDENT
+}
+
+func CreateIntToken(integer string) *Token {
+	return New(INT, integer)
+}
+
+func EOFToken() *Token {
+	return New(EOF, "")
+}
+
+func IllegalToken(literal string) *Token {
+	return New(ILLEGAL, literal)
 }

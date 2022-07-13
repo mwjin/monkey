@@ -19,61 +19,31 @@ func New(input string) *Lexer {
 
 func (l *Lexer) NextToken() *token.Token {
 	var tok *token.Token
-
 	l.skipWhitespace()
 
 	switch l.ch {
-	case '=':
+	case '=', '!':
 		if string(l.peekChar()) == "=" {
+			ch := l.ch
 			l.readChar()
-			tok = token.New(token.EQ, "==")
+			tok = token.CreateTokenFromLiteral(string(ch) + string(l.ch))
 		} else {
-			tok = token.New(token.ASSIGN, string(l.ch))
+			tok = token.CreateTokenFromLiteral(string(l.ch))
 		}
-	case '+':
-		tok = token.New(token.PLUS, string(l.ch))
-	case '-':
-		tok = token.New(token.MINUS, string(l.ch))
-	case '!':
-		if string(l.peekChar()) == "=" {
-			l.readChar()
-			tok = token.New(token.NOT_EQ, "!=")
-		} else {
-			tok = token.New(token.BANG, string(l.ch))
-		}
-	case '/':
-		tok = token.New(token.SLASH, string(l.ch))
-	case '*':
-		tok = token.New(token.ASTERISK, string(l.ch))
-	case '<':
-		tok = token.New(token.LT, string(l.ch))
-	case '>':
-		tok = token.New(token.GT, string(l.ch))
-	case ',':
-		tok = token.New(token.COMMA, string(l.ch))
-	case ';':
-		tok = token.New(token.SEMICOLON, string(l.ch))
-	case '(':
-		tok = token.New(token.LPAREN, string(l.ch))
-	case ')':
-		tok = token.New(token.RPAREN, string(l.ch))
-	case '{':
-		tok = token.New(token.LBRACE, string(l.ch))
-	case '}':
-		tok = token.New(token.RBRACE, string(l.ch))
+	case '+', '-', '/', '*', '<', '>', ',', ';', '(', ')', '{', '}':
+		tok = token.CreateTokenFromLiteral(string(l.ch))
 	case 0:
-		tok = token.New(token.EOF, "")
+		tok = token.EOFToken()
 	default:
 		if isLetter(l.ch) {
-			word := l.readWord()
-			return token.New(token.GetTypeOfWord(word), word)
+			return token.CreateWordToken(l.readWord())
 		} else if isDigit(l.ch) {
-			integer := l.readInteger()
-			return token.New(token.INT, integer)
+			return token.CreateIntToken(l.readInteger())
 		} else {
-			tok = token.New(token.ILLEGAL, string(l.ch))
+			tok = token.IllegalToken(string(l.ch))
 		}
 	}
+
 	l.readChar()
 	return tok
 }
