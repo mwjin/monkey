@@ -22,7 +22,7 @@ func (l *Lexer) NextToken() *token.Token {
 	l.skipWhitespace()
 
 	switch l.ch {
-	case '=', '!':
+	case '=', '!', '<', '>':
 		if string(l.peekChar()) == "=" {
 			ch := l.ch
 			l.readChar()
@@ -30,7 +30,7 @@ func (l *Lexer) NextToken() *token.Token {
 		} else {
 			tok = token.CreateTokenFromLiteral(string(l.ch))
 		}
-	case '+', '-', '/', '*', '<', '>', ',', ';', '(', ')', '{', '}':
+	case '+', '-', '/', '*', ',', ';', '(', ')', '{', '}':
 		tok = token.CreateTokenFromLiteral(string(l.ch))
 	case 0:
 		tok = token.EOFToken()

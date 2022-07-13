@@ -132,6 +132,8 @@ func TestTwoCharacterToken(t *testing.T) {
 	input := `
 10 == 10;
 10 != 9;
+1 <= 2;
+2 >= 1;
 `
 	tests := []token.Token{
 		*token.New(token.INT, "10"),
@@ -141,6 +143,14 @@ func TestTwoCharacterToken(t *testing.T) {
 		*token.New(token.INT, "10"),
 		*token.New(token.NOT_EQ, "!="),
 		*token.New(token.INT, "9"),
+		*token.New(token.SEMICOLON, ";"),
+		*token.New(token.INT, "1"),
+		*token.New(token.LT_EQ, "<="),
+		*token.New(token.INT, "2"),
+		*token.New(token.SEMICOLON, ";"),
+		*token.New(token.INT, "2"),
+		*token.New(token.GT_EQ, ">="),
+		*token.New(token.INT, "1"),
 		*token.New(token.SEMICOLON, ";"),
 	}
 
