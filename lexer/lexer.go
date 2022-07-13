@@ -6,7 +6,7 @@ import (
 
 type Lexer struct {
 	input        string
-	position     int
+	currPosition int
 	readPosition int
 	ch           byte
 }
@@ -85,19 +85,19 @@ func (l *Lexer) skipWhitespace() {
 }
 
 func (l *Lexer) readWord() string {
-	startPosition := l.position
+	startPosition := l.currPosition
 	for isLetter(l.ch) {
 		l.readChar()
 	}
-	return l.input[startPosition:l.position]
+	return l.input[startPosition:l.currPosition]
 }
 
 func (l *Lexer) readInteger() string {
-	startPosition := l.position
+	startPosition := l.currPosition
 	for isDigit(l.ch) {
 		l.readChar()
 	}
-	return l.input[startPosition:l.position]
+	return l.input[startPosition:l.currPosition]
 }
 
 // TODO: Support UNICODE (Multibytes)
@@ -107,7 +107,7 @@ func (l *Lexer) readChar() {
 	} else {
 		l.ch = l.input[l.readPosition]
 	}
-	l.position = l.readPosition
+	l.currPosition = l.readPosition
 	l.readPosition++
 }
 
