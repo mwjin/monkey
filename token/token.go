@@ -7,19 +7,19 @@ type Token struct {
 	literal   string
 }
 
-func (token *Token) Type() TokenType {
+func (token Token) Type() TokenType {
 	return token.tokenType
 }
 
-func (token *Token) Literal() string {
+func (token Token) Literal() string {
 	return token.literal
 }
 
-func (token *Token) HasSameTypeWith(otherToken *Token) bool {
+func (token Token) HasSameTypeWith(otherToken *Token) bool {
 	return token.tokenType == otherToken.tokenType
 }
 
-func (token *Token) HasSameLiteralWith(otherToken *Token) bool {
+func (token Token) HasSameLiteralWith(otherToken *Token) bool {
 	return token.literal == otherToken.literal
 }
 
@@ -75,15 +75,15 @@ var keywords = map[string]TokenType{
 	"return": RETURN,
 }
 
-func New(inType TokenType, literal string) *Token {
-	return &Token{tokenType: inType, literal: literal}
+func New(inType TokenType, literal string) Token {
+	return Token{tokenType: inType, literal: literal}
 }
 
-func CreateTokenFromLiteral(literal string) *Token {
+func CreateTokenFromLiteral(literal string) Token {
 	return New(TokenType(literal), literal)
 }
 
-func CreateWordToken(word string) *Token {
+func CreateWordToken(word string) Token {
 	return New(getTypeOfWord(word), word)
 }
 
@@ -94,14 +94,14 @@ func getTypeOfWord(word string) TokenType {
 	return IDENT
 }
 
-func CreateIntToken(integer string) *Token {
+func CreateIntToken(integer string) Token {
 	return New(INT, integer)
 }
 
-func EOFToken() *Token {
+func EOFToken() Token {
 	return New(EOF, "")
 }
 
-func IllegalToken(literal string) *Token {
+func IllegalToken(literal string) Token {
 	return New(ILLEGAL, literal)
 }

@@ -44,21 +44,21 @@ func (p *Program) AppendStatement(stmt Statement) {
 
 type LetStatement struct {
 	token token.Token
-	name  *Identifier
+	name  Identifier
 	value Expression
 }
 
-func NewLetStatement(letToken token.Token, name *Identifier, value Expression) *LetStatement {
-	return &LetStatement{
+func NewLetStatement(letToken token.Token, name Identifier, value Expression) LetStatement {
+	return LetStatement{
 		token: letToken,
 		name:  name,
 		value: value,
 	}
 }
-func (ls *LetStatement) statementNode()       {}
-func (ls *LetStatement) TokenLiteral() string { return ls.token.Literal() }
-func (ls *LetStatement) GetIdName() string    { return ls.name.value }
-func (ls *LetStatement) GetIdTokenLiteral() string {
+func (ls LetStatement) statementNode()       {}
+func (ls LetStatement) TokenLiteral() string { return ls.token.Literal() }
+func (ls LetStatement) GetIdName() string    { return ls.name.value }
+func (ls LetStatement) GetIdTokenLiteral() string {
 	return ls.name.TokenLiteral()
 }
 
@@ -67,8 +67,8 @@ type Identifier struct {
 	value string
 }
 
-func NewIdentifier(idToken token.Token, value string) *Identifier {
-	return &Identifier{token: idToken, value: value}
+func NewIdentifier(idToken token.Token, value string) Identifier {
+	return Identifier{token: idToken, value: value}
 }
-func (id *Identifier) expressionNode()      {}
-func (id *Identifier) TokenLiteral() string { return id.token.Literal() }
+func (id Identifier) expressionNode()      {}
+func (id Identifier) TokenLiteral() string { return id.token.Literal() }

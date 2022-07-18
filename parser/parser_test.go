@@ -48,7 +48,7 @@ func testLetStatement(t *testing.T, stmt ast.Statement, name string) bool {
 		return false
 	}
 
-	letStmt, ok := stmt.(*ast.LetStatement)
+	letStmt, ok := stmt.(ast.LetStatement)
 	if !ok {
 		t.Errorf("The type of stmt is not ast.LetStatement. got=%T", stmt)
 		return false

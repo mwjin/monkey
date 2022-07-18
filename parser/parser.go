@@ -21,7 +21,7 @@ func New(l *lexer.Lexer) *Parser {
 
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
-	p.peekToken = *p.l.NextToken()
+	p.peekToken = p.l.NextToken()
 }
 
 func (p *Parser) ParseProgram() *ast.Program {
@@ -45,20 +45,20 @@ func (p *Parser) parseStatement() ast.Statement {
 	}
 }
 
-func (p *Parser) parseLetStatement() *ast.LetStatement {
+func (p *Parser) parseLetStatement() ast.LetStatement {
 	letToken := p.curToken
 	p.nextToken()
 	identifier := p.parseIdentifier()
 	p.nextToken()
 	if p.curToken.Type() != token.ASSIGN {
-		return nil
+		return ast.LetStatement{}
 	}
 	value := p.parseExpression()
 
 	return ast.NewLetStatement(letToken, identifier, value)
 }
 
-func (p *Parser) parseIdentifier() *ast.Identifier {
+func (p *Parser) parseIdentifier() ast.Identifier {
 	return ast.NewIdentifier(p.curToken, p.curToken.Literal())
 }
 
