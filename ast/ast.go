@@ -28,6 +28,10 @@ func (p *Program) TokenLiteral() string {
 	}
 }
 
+func (p *Program) GetStatements() []Statement {
+	return p.statements
+}
+
 type LetStatement struct {
 	token token.Token
 	name  *Identifier
@@ -36,6 +40,10 @@ type LetStatement struct {
 
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.token.Literal() }
+func (ls *LetStatement) GetIdName() string    { return ls.name.value }
+func (ls *LetStatement) GetIdTokenLiteral() string {
+	return ls.name.TokenLiteral()
+}
 
 type Identifier struct {
 	token token.Token
