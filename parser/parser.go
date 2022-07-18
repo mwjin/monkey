@@ -26,7 +26,7 @@ func (p *Parser) nextToken() {
 
 func (p *Parser) ParseProgram() *ast.Program {
 	program := ast.NewProgram()
-	for p.curToken.Type() != token.EOF {
+	for !p.curTokenTypeIs(token.EOF) {
 		stmt := p.parseStatement()
 		if stmt != nil {
 			program.AppendStatement(stmt)
@@ -34,6 +34,10 @@ func (p *Parser) ParseProgram() *ast.Program {
 		p.nextToken()
 	}
 	return program
+}
+
+func (p *Parser) curTokenTypeIs(tokenType token.TokenType) bool {
+	return p.curToken.Type() == tokenType
 }
 
 func (p *Parser) parseStatement() ast.Statement {
@@ -47,15 +51,35 @@ func (p *Parser) parseStatement() ast.Statement {
 
 func (p *Parser) parseLetStatement() ast.LetStatement {
 	letToken := p.curToken
-	p.nextToken()
-	identifier := p.parseIdentifier()
-	p.nextToken()
-	if p.curToken.Type() != token.ASSIGN {
+
+	if !p.expectPeek(token.IDENT) {
 		return ast.LetStatement{}
 	}
+	identifier := p.parseIdentifier()
+
+	if !p.expectPeek(token.ASSIGN) {
+		return ast.LetStatement{}
+	}
+
 	value := p.parseExpression()
 
+	for !p.curTokenTypeIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
 	return ast.NewLetStatement(letToken, identifier, value)
+}
+
+func (p *Parser) expectPeek(tokenType token.TokenType) bool {
+	if p.peekTokenTypeIs(tokenType) {
+		p.nextToken()
+		return true
+	}
+	return false
+}
+
+func (p *Parser) peekTokenTypeIs(tokenType token.TokenType) bool {
+	return p.peekToken.Type() == tokenType
 }
 
 func (p *Parser) parseIdentifier() ast.Identifier {
